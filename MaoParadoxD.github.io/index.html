@@ -25,6 +25,21 @@
             margin-top: 24px;
             font-size: 1.1em;
         }
+        .interactive-button {
+            margin-top: 24px;
+            padding: 12px 24px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 400px;
+        }
+        .interactive-button:hover {
+            background: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -39,6 +54,54 @@
             <strong>联系方式：</strong><br>
             邮箱：maoparadoxd@gmail.com 
         </div>
+        <button class="interactive-button" onclick="changeText()">:></button>
     </div>
+
+    <script>
+        let clickCount = 0;
+        let emojiInterval;
+        
+        function changeText() {
+            clickCount++;
+            const button = document.querySelector('.interactive-button');
+            
+            if (clickCount <= 10) {
+                // 前10次点击，增加间距
+                const spaces = '&nbsp;'.repeat(clickCount);
+                button.innerHTML = ':' + spaces + '>';
+            } else if (clickCount === 11) {
+                button.textContent = ':@>-';
+            } else if (clickCount === 12) {
+                button.textContent = ':@@>—               --<@@!';
+            } else if (clickCount === 13) {
+                button.textContent = ':@@>—     🌹 --<@@!';
+            } else if (clickCount === 14) {
+                // 清除之前的定时器
+                if (emojiInterval) {
+                    clearInterval(emojiInterval);
+                }
+                
+                button.innerHTML = ':@@>— Hello my love🌹--<@@!<br><div style="text-align: center; margin-top: 10px;">:)</div>';
+                
+                // 开始表情符号交替变化
+                let isWink = false;
+                emojiInterval = setInterval(() => {
+                    const emojiDiv = button.querySelector('div');
+                    if (emojiDiv) {
+                        emojiDiv.textContent = isWink ? ':)' : ';)';
+                        isWink = !isWink;
+                    }
+                }, 3000);
+                
+                // 0.5秒后立即切换一次
+                setTimeout(() => {
+                    const emojiDiv = button.querySelector('div');
+                    if (emojiDiv) {
+                        emojiDiv.textContent = ';)';
+                    }
+                }, 500);
+            }
+        }
+    </script>
 </body>
 </html> 
